@@ -1,5 +1,6 @@
 {
   "name": "intris",
+  "private": true,
   "dependencies": {
     "@most/create": "^1.0.1",
     "core-js": "^2.4.0",
