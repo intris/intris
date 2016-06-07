@@ -1,0 +1,19 @@
+{
+  "name": "intris",
+  "dependencies": {
+    "@most/create": "^1.0.1",
+    "core-js": "^2.4.0",
+    "dom4": "^1.8.3",
+    "most": "^0.19.7",
+    "ramda": "^0.21.0",
+    "whatwg-fetch": "^1.0.0"
+  },
+  "devDependencies": {
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "babelify": "^7.3.0",
+    "browserify": "^13.0.1",
+    "http-server": "^0.9.0",
+    "watchify": "^3.7.0"
+  }
+}
