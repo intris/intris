@@ -8,9 +8,8 @@ class Storage extends EventEmitter {
     this.storage = storage;
     most.fromEvent("storage", window)
       .filter(R.propEq("storageArea", storage))
-      .map(R.pick(["key"]))
-      .forEach(action => {
-        this.emit("change", action);
+      .forEach(({key}) => {
+        this.emit("change", {key});
       });
   }
   get(key) {
