@@ -1,7 +1,8 @@
-import most from "most";
+import R from "ramda";
 
 import Input from "./config/input";
 
+import storage from "./utils/storage";
 import Ticker from "./utils/ticker";
 import Keyboard from "./input/keyboard";
 import KeyStore from "./input/utils/key-store";
@@ -12,7 +13,7 @@ export default class Game {
     const ticker = Ticker();
     const input =
       KeyStore(Input.keys)(
-        KeyMapper(most.of(Input.methods.keyboard))(
+        KeyMapper(storage.listen("input.keyboard").map(R.defaultTo(Input.methods.keyboard)))(
           Keyboard(document)));
     this.subscription =
       ticker.sample((count, input) => ({
