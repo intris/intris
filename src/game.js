@@ -1,6 +1,6 @@
 import R from "ramda";
 
-import Input from "./config/input";
+import Input from "./data/input.json";
 
 import storage from "./utils/storage";
 import Ticker from "./utils/ticker";
