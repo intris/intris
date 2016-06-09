@@ -5,4 +5,5 @@ export default R.curry((mapper, action) =>
     type: action.type,
     key: mapper[action.key]
   }), action, mapper.map(R.invertObj))
-    .filter(R.prop("key")));
+    .filter(R.prop("key"))
+);
