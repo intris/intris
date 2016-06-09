@@ -1,0 +1,12 @@
+{
+  "size": {
+    "width": 10,
+    "height": 20
+  },
+  "padding": {
+    "left": 0,
+    "right": 0,
+    "top": 20,
+    "bottom": 0
+  }
+}

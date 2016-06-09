@@ -1,22 +1,22 @@
 {
   "keys": [
-    "Move Left",
-    "Move Right",
-    "Hard Drop",
-    "Soft Drop",
-    "Rotate Left",
-    "Rotate Right",
-    "Hold"
+    "move-left",
+    "move-right",
+    "hard-drop",
+    "soft-drop",
+    "rotate-left",
+    "rotate-right",
+    "hold"
   ],
   "methods": {
     "keyboard": {
-      "Move Left": "ArrowLeft",
-      "Move Right": "ArrowRight",
-      "Hard Drop": "ArrowUp",
-      "Soft Drop": "ArrowDown",
-      "Rotate Left": "KeyZ",
-      "Rotate Right": "KeyX",
-      "Hold": "Space"
+      "move-left": "ArrowLeft",
+      "move-right": "ArrowRight",
+      "hard-drop": "ArrowUp",
+      "soft-drop": "ArrowDown",
+      "rotate-left": "KeyZ",
+      "rotate-right": "KeyX",
+      "hold": "Space"
     }
   }
 }

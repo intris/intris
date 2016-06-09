@@ -3,9 +3,11 @@ import R from "ramda";
 import BlockData from "../data/block.json";
 import * as matrix from "../utils/matrix";
 
+const WIDTH = BlockData.size.width;
+const HEIGHT = BlockData.size.height;
+
 const empty = Object.freeze(
-  R.times(() => R.repeat(0, BlockData.size.width),
-    BlockData.size.height));
+  R.times(() => R.repeat(0, WIDTH), HEIGHT));
 
 const data =
   R.map(item =>

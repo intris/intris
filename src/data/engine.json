@@ -1,4 +1,6 @@
 {
   "next": 3,
-  "config": {}
+  "config": {
+    "drop-delay": 60
+  }
 }
