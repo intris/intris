@@ -18,11 +18,11 @@ export default class Game {
     const input =
       Keyboard(document)
         .thru(KeyMapper(storage.listen("input.keyboard")
-          .map(R.defaultTo(InputData.methods.keyboard))))
+          .map(R.merge(InputData.methods.keyboard))))
         .thru(KeyStore(InputData.keys));
     const config =
       storage.listen("engine.config")
-        .map(R.defaultTo(EngineData.config));
+        .map(R.merge(EngineData.config));
     this.stream =
       ticker
         .thru(Engine({config, input}));
