@@ -1,5 +1,7 @@
 # Intris
 
+**In Development**
+
 A Tetris game follows [SRS] guideline with additional [IRS] / [IHS] support.
 
 [SRS]: http://harddrop.com/wiki/SRS "Super Rotation System"
