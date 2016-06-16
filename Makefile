@@ -10,3 +10,6 @@ serve:
 	parallel --jobs 2 --line-buffer ::: \
 		"http-server" \
 		"make watch"
+
+lint:
+	eslint ./src
