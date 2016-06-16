@@ -15,16 +15,13 @@ const types =
 export default ({ type = -1, rotate = 0, x = 0, y = 0 } = {}) =>
   ({ type, rotate, x, y });
 
-export const rotate = R.curry((block, offset) => ({
+export const rotate = R.curry((block, direction) => ({
   ...block,
-  rotate: R.mathMod(block.rotate + offset, 4),
+  rotate: R.mathMod(block.rotate + direction, 4),
 }));
 
-export const rotateLeft =
-  rotate(R.__, -1);
-
-export const rotateRight =
-  rotate(R.__, 1);
+export const ROTATE_LEFT = -1;
+export const ROTATE_RIGHT = 1;
 
 export const moveTo = R.curry((block, x, y) =>
   ({ ...block, x, y }));
