@@ -2,7 +2,7 @@ import R from "ramda";
 
 import GroundData from "../data/ground.json";
 
-import Block from "./block";
+import {getData} from "./block";
 
 const WIDTH = GroundData.size.width;
 const HEIGHT = GroundData.size.height;
@@ -37,10 +37,10 @@ export const get = R.curry((ground, x, y) => {
 });
 
 export const checkAvailable = R.curry((ground, block) => {
-  const data = Block.getData(block);
-  for(let y = 0; y < data.length; y++) {
-    for(let x = 0; x < data[y].length; x++) {
-      if(data[y][x] && get(ground, x + block.x, y + block.y) !== EMPTY) {
+  const data = getData(block);
+  for(let x = 0; x < data.size.width; x++) {
+    for(let y = 0; y < data.size.height; y++) {
+      if(data.data[y][x] && get(ground, x + block.x, y + block.y) !== EMPTY) {
         return false;
       }
     }
