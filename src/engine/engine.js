@@ -5,7 +5,7 @@ import GroundData from "../data/ground.json";
 import BlockData from "../data/block.json";
 
 import Block from "../structs/block";
-import Ground, {checkAvailable} from "../structs/ground";
+import Ground, { checkAvailable } from "../structs/ground";
 
 import Random from "../utils/random";
 
@@ -16,7 +16,7 @@ export default class Engine {
     this.block = null;
     this.checkAvailable = checkAvailable(this.ground);
     this.delays = {
-      drop: 0
+      drop: 0,
     };
     this.nexts = R.times(::this.randomType, EngineData.next);
   }
@@ -27,17 +27,17 @@ export default class Engine {
     this.block = Block({
       type: R.head(this.nexts),
       x: Math.floor((GroundData.size.width - BlockData.size.width) / 2 + BlockData.offset.x),
-      y: Math.floor(-BlockData.size.height / 2 + BlockData.offset.y)
+      y: Math.floor(-BlockData.size.height / 2 + BlockData.offset.y),
     });
     this.nexts = R.append(this.randomType(), R.tail(this.nexts));
   }
-  next({count, config, input}) {
+  next({ count, config, input }) {
     return {
       action: "next",
       data: {
         ground: this.ground,
-        block: this.block
-      }
+        block: this.block,
+      },
     };
   }
 }

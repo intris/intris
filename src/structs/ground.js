@@ -2,7 +2,7 @@ import R from "ramda";
 
 import GroundData from "../data/ground.json";
 
-import {getData} from "./block";
+import { getData } from "./block";
 
 const WIDTH = GroundData.size.width;
 const HEIGHT = GroundData.size.height;
@@ -19,7 +19,7 @@ export const EMPTY = -1;
 export const WALL = 0xFF;
 
 export default () => ({
-  data: new Int8Array(P_WIDTH * P_HEIGHT).fill(EMPTY)
+  data: new Int8Array(P_WIDTH * P_HEIGHT).fill(EMPTY),
 });
 
 export const isIn = R.curry((ground, x, y) =>
@@ -30,7 +30,7 @@ export const isIn = R.curry((ground, x, y) =>
 );
 
 export const get = R.curry((ground, x, y) => {
-  if(!isIn(ground, x, y)) {
+  if (!isIn(ground, x, y)) {
     return WALL;
   }
   return ground.data[(P_TOP + y) * P_WIDTH + P_LEFT + x];
@@ -38,9 +38,9 @@ export const get = R.curry((ground, x, y) => {
 
 export const checkAvailable = R.curry((ground, block) => {
   const data = getData(block);
-  for(let x = 0; x < data.size.width; x++) {
-    for(let y = 0; y < data.size.height; y++) {
-      if(data.data[y][x] && get(ground, x + block.x, y + block.y) !== EMPTY) {
+  for (let x = 0; x < data.size.width; x++) {
+    for (let y = 0; y < data.size.height; y++) {
+      if (data.data[y][x] && get(ground, x + block.x, y + block.y) !== EMPTY) {
         return false;
       }
     }

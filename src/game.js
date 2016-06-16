@@ -25,7 +25,7 @@ export default class Game {
         .map(R.merge(EngineData.config));
     this.stream =
       ticker
-        .thru(Engine({config, input}));
+        .thru(Engine({ config, input }));
   }
   run() {
     return new Promise((resolve, reject) => {
@@ -33,7 +33,7 @@ export default class Game {
         this.stream
           .subscribe({
             complete: resolve,
-            error: reject
+            error: reject,
           });
     });
   }

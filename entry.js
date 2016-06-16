@@ -4,4 +4,4 @@ import "dom4";
 
 import Game from "./src/game";
 
-new Game();
+System.global.game = new Game();
