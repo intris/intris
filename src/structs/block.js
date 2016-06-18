@@ -5,11 +5,10 @@ import * as matrix from "../utils/matrix";
 
 const types =
   R.map(item =>
-    R.map(Object.freeze,
-      R.zipWith((data, position) =>
-        ({ ...item, data, position }),
-        R.scan(matrix.rotate, item.data, R.range(1, 4)),
-        item.position)),
+    R.zipWith((data, position) =>
+      ({ ...item, data, position }),
+      R.scan(matrix.rotate, item.data, R.range(1, 4)),
+      item.position),
     BlockData.types);
 
 export default ({ type = -1, rotate = 0, x = 0, y = 0 } = {}) =>
