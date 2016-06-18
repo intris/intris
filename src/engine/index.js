@@ -7,8 +7,8 @@ export default R.curry(({ config, input }, ticker) =>
   create((next, complete, error) => {
     const engine = new Engine();
     const subscription = ticker
-      .sample((count, config, input) =>
-        ({ count, config, input }),
+      .sample((frame, config, input) =>
+        ({ frame, config, input }),
         ticker, config, input)
       .map(::engine.next)
       .subscribe({

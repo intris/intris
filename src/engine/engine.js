@@ -4,7 +4,7 @@ export default class Engine {
   constructor() {
     this.core = new Core();
   }
-  next({ count, config, input }) {
+  next({ frame, config, input }) {
     return {
       action: "next",
       data: {},
