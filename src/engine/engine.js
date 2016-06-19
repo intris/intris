@@ -109,6 +109,7 @@ export default class Engine {
           this.state = State.Drop;
           break;
         }
+        // TODO: handle input
         this.delays.drop++;
         break;
       }
@@ -129,6 +130,7 @@ export default class Engine {
           this.state = State.Lock;
           break;
         }
+        // TODO: handle input
         this.delays.lock++;
         break;
       }
