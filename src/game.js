@@ -27,11 +27,12 @@ export default class Game {
       ticker
         .thru(Engine({ config, input }));
   }
-  run() {
+  run(handler) {
     return new Promise((resolve, reject) => {
       this.subscription =
         this.stream
           .subscribe({
+            next: handler,
             complete: resolve,
             error: reject,
           });

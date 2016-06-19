@@ -60,7 +60,7 @@ export const place = R.curry((ground, block) => {
   for (let x = 0; x < data.size.width; x++) {
     for (let y = 0; y < data.size.height; y++) {
       if (data.data[y][x]) {
-        set(ground, x + block.x, y + block.y, data.type);
+        set(ground, x + block.x, y + block.y, block.type);
       }
     }
   }

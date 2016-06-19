@@ -12,12 +12,12 @@ export default R.curry(({ config, input }, ticker) =>
         ticker, config, input)
       .map(::engine.next)
       .subscribe({
-        next: ({ action, data }) =>
+        next: (data) =>
           R.cond([
             [R.equals("complete"), R.always(complete)],
             [R.equals("error"), R.always(error)],
             [R.T, R.always(next)],
-          ], action)(data),
+          ])(data.action)(data),
         complete, error,
       });
     return () =>

@@ -118,6 +118,7 @@ export default class Engine {
         }
         if (this.delays.lock >= config.delay.lock) {
           this.delays.lock = 0;
+          this.state = State.Lock;
           break;
         }
         this.delays.lock++;
@@ -147,9 +148,14 @@ export default class Engine {
     for (let __ = 0; __ < frame; __++) {
       this.loop({ config, input });
     }
+    if (this.state === State.End) {
+      return {
+        action: "complete",
+      };
+    }
     return {
       action: "next",
-      data: {},
+      data: this.core,
     };
   }
 }

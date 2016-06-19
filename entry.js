@@ -3,5 +3,9 @@ import "whatwg-fetch";
 import "dom4";
 
 import Game from "./src/game";
+import Renderer from "./src/renderer";
 
-System.global.game = new Game();
+const game = new Game();
+const renderer = new Renderer();
+
+game.run(::renderer.render);
