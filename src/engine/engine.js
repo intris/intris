@@ -162,6 +162,7 @@ export default class Engine {
     return {
       action: "next",
       data: this.core,
+      delays: this.delays,
     };
   }
 }
