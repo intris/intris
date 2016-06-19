@@ -30,16 +30,8 @@ export default class Engine {
   trace(...args) {
     log.trace("%o [%s]", this.frame, String(this.state).toUpperCase(), ...args);
   }
-  delay(name, config) {
-    this.delays[name]++;
-    const result = this.delays[name] > config.delay[name];
-    if (result) {
-      this.delays[name] = 0;
-    }
-    return result;
-  }
   resetLockDelay() {
-    // FIXME
+    // TODO
     this.delays.lock = 0;
   }
   actKey() {
