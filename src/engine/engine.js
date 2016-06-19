@@ -1,3 +1,5 @@
+import log from "loglevel";
+
 import Core from "./core";
 
 const State = {
@@ -16,6 +18,7 @@ const State = {
 
 export default class Engine {
   constructor() {
+    this.frame = 0;
     this.core = new Core();
     this.state = State.Begin;
     this.delays = {
@@ -23,6 +26,9 @@ export default class Engine {
       drop: 0,
       lock: 0,
     };
+  }
+  trace(...args) {
+    log.trace("%o [%s]", this.frame, String(this.state).toUpperCase(), ...args);
   }
   delay(name, config) {
     this.delays[name]++;
@@ -44,6 +50,7 @@ export default class Engine {
     const core = this.core;
     switch (this.state) {
       case State.Begin: {
+        this.trace();
         this.state = State.Create;
         break;
       }
@@ -51,6 +58,7 @@ export default class Engine {
       case State.Create: {
         core.next();
         core.showBlock = false;
+        this.trace(core.block);
         this.state = State.DelayShow;
         break;
       }
@@ -127,12 +135,14 @@ export default class Engine {
 
       case State.Lock: {
         core.lock();
+        this.trace();
         this.state = State.Create;
         break;
       }
 
       case State.End: {
         // TODO
+        this.trace();
         break;
       }
     }
@@ -146,6 +156,7 @@ export default class Engine {
   }
   next({ frame, config, input }) {
     for (let __ = 0; __ < frame; __++) {
+      this.frame++;
       this.loop({ config, input });
     }
     if (this.state === State.End) {

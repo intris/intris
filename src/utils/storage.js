@@ -35,4 +35,8 @@ class Storage extends EventEmitter {
   }
 }
 
-export default new Storage(localStorage);
+const storage = new Storage(localStorage);
+
+System.global.storage = storage;
+
+export default storage;
