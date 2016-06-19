@@ -161,6 +161,7 @@ export default class Engine {
     }
     return {
       action: "next",
+      state: this.state,
       data: this.core,
       delays: this.delays,
     };
