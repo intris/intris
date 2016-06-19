@@ -1,5 +1,7 @@
 # Intris
 
+[![Build Status](https://travis-ci.org/intris/intris.svg?branch=master)](https://travis-ci.org/intris/intris)
+
 **In Development**
 
 A Tetris game follows [SRS] guideline with additional [IRS] / [IHS] support.
