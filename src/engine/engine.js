@@ -129,6 +129,7 @@ export default class Engine {
 
       case State.Lock: {
         core.lock();
+        this.delays.drop = 0;
         this.trace();
         this.state = State.Create;
         break;
