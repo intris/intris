@@ -150,14 +150,14 @@ export default class Engine {
     }
   }
   next({ frame, config, input }) {
-    for (let __ = 0; __ < frame; __++) {
-      this.frame++;
-      this.loop({ config, input });
-    }
     if (this.state === State.End) {
       return {
         action: "complete",
       };
+    }
+    for (let __ = 0; __ < frame; __++) {
+      this.frame++;
+      this.loop({ config, input });
     }
     return {
       action: "next",
