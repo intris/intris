@@ -156,8 +156,8 @@ export default class Engine {
       };
     }
     for (let __ = 0; __ < frame; __++) {
-      this.frame++;
       this.loop({ config, input });
+      this.frame++;
     }
     return {
       action: "next",
