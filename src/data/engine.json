@@ -1,6 +1,9 @@
 {
   "next": 3,
   "config": {
-    "drop-delay": 60
+    "delay": {
+      "show": 0,
+      "drop": 60
+    }
   }
 }

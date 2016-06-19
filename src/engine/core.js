@@ -9,7 +9,7 @@ import Block, {
   moveTo, moveBy,
   rotate, ROTATE_LEFT, ROTATE_RIGHT,
 } from "../structs/block";
-import Ground, { checkAvailable } from "../structs/ground";
+import Ground, { checkAvailable, place } from "../structs/ground";
 
 import Random from "../utils/random";
 
@@ -19,6 +19,7 @@ export default class Core {
 
     this.ground = Ground();
     this.block = null;
+    this.showBlock = false;
     this.nexts = R.times(::this.randomType, EngineData.next);
   }
 
@@ -38,6 +39,16 @@ export default class Core {
 
   checkAvailable(block = this.block) {
     return checkAvailable(this.ground, block);
+  }
+  isDead() {
+    return !this.checkAvailable();
+  }
+
+  place(block = this.block) {
+    return place(this.ground, block);
+  }
+  lock() {
+    this.place();
   }
 
   drop() {

@@ -4,14 +4,14 @@ import BlockData from "../data/block.json";
 import * as matrix from "../utils/matrix";
 
 const types =
-  R.map(item =>
+  R.addIndex(R.map)((item, type) =>
     R.zipWith((data, position) =>
-      ({ ...item, data, position }),
+      ({ ...item, type, data, position }),
       R.scan(matrix.rotate, item.data, R.range(1, 4)),
       item.position),
     BlockData.types);
 
-export default ({ type = -1, rotate = 0, x = 0, y = 0 } = {}) =>
+export default ({ type, rotate = 0, x = 0, y = 0 } = {}) =>
   ({ type, rotate, x, y });
 
 export const rotate = R.curry((block, direction) => ({

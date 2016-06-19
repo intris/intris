@@ -36,6 +36,13 @@ export const get = R.curry((ground, x, y) => {
   return ground.data[(P_TOP + y) * P_WIDTH + P_LEFT + x];
 });
 
+export const set = R.curry((ground, x, y, type) => {
+  if (!isIn(ground, x, y)) {
+    return;
+  }
+  ground.data[(P_TOP + y) * P_WIDTH + P_LEFT + x] = type;
+});
+
 export const checkAvailable = R.curry((ground, block) => {
   const data = getData(block);
   for (let x = 0; x < data.size.width; x++) {
@@ -46,4 +53,15 @@ export const checkAvailable = R.curry((ground, block) => {
     }
   }
   return true;
+});
+
+export const place = R.curry((ground, block) => {
+  const data = getData(block);
+  for (let x = 0; x < data.size.width; x++) {
+    for (let y = 0; y < data.size.height; y++) {
+      if (data.data[y][x]) {
+        set(ground, x + block.x, y + block.y, data.type);
+      }
+    }
+  }
 });
