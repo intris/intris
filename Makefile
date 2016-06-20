@@ -9,7 +9,7 @@ watch:
 serve:
 	concurrently \
 		"http-server" \
-		"make watch"
+		"$(MAKE) watch"
 
 lint:
 	eslint ./src
