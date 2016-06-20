@@ -9,8 +9,8 @@ const HEIGHT = GroundData.size.height;
 export default class Renderer {
   constructor() {
     // TODO
-    this.width = 100;
-    this.height = 200;
+    this.width = WIDTH * 20;
+    this.height = HEIGHT * 20;
     this.canvas = document.createElement("canvas");
     this.canvas.width = this.width * window.devicePixelRatio;
     this.canvas.height = this.height * window.devicePixelRatio;
@@ -22,8 +22,11 @@ export default class Renderer {
   }
   drawUnit(x, y, type) {
     if (type !== EMPTY) {
-      this.context.fillRect(x * 10, y * 10, 10, 10);
+      this.context.fillStyle = "#000";
+    } else {
+      this.context.fillStyle = "#eee";
     }
+    this.context.fillRect(x * 20 + 1, y * 20 + 1, 20 - 2, 20 - 2);
   }
   drawBlock(block) {
     const data = getData(block);

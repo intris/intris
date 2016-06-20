@@ -51,18 +51,48 @@ export default class Core {
     this.place();
   }
 
-  drop() {
-    this.block = moveBy(this.block, 0, 1);
+  moveBy(x, y) {
+    this.block = moveBy(this.block, x, y);
   }
-  canDrop() {
-    return this.checkAvailable(moveBy(this.block, 0, 1));
+  canMoveBy(x, y) {
+    return this.checkAvailable(moveBy(this.block, x, y));
   }
-  tryDrop() {
+  tryMoveBy(x, y) {
     let result;
-    if ((result = this.canDrop())) {
-      this.drop();
+    if ((result = this.canMoveBy(x, y))) {
+      this.moveBy(x, y);
     }
     return result;
+  }
+
+  moveLeft() {
+    this.moveBy(-1, 0);
+  }
+  canMoveLeft() {
+    return this.canMoveBy(-1, 0);
+  }
+  tryMoveLeft() {
+    return this.tryMoveBy(-1, 0);
+  }
+
+  moveRight() {
+    this.moveBy(1, 0);
+  }
+  canMoveRight() {
+    return this.canMoveBy(1, 0);
+  }
+  tryMoveRight() {
+    return this.tryMoveBy(1, 0);
+  }
+
+  drop() {
+    this.moveBy(0, 1);
+  }
+  canDrop() {
+    return this.canMoveBy(0, 1);
+  }
+  tryDrop() {
+    return this.tryMoveBy(0, 1);
   }
 
   rotate(direction, offset = [0, 0]) {

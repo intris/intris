@@ -34,13 +34,14 @@ export default class Engine {
     // TODO
     this.delays.lock = 0;
   }
-  actKey() {
+  actInput() {
+    // TODO
     const hasMoved = false;
     return hasMoved;
   }
-  act({ config }) {
+  act({ config, input }) {
     const core = this.core;
-    switch (this.state) {
+    outer: switch (this.state) {
       case State.Begin: {
         this.trace();
         this.state = State.Create;
@@ -102,7 +103,12 @@ export default class Engine {
           this.state = State.Drop;
           break;
         }
-        // TODO: handle input
+        while (this.actInput(input)) {
+          if (!core.canDrop()) {
+            this.state = State.CheckDrop;
+            break outer;
+          }
+        }
         this.delays.drop++;
         break;
       }
@@ -123,7 +129,12 @@ export default class Engine {
           this.state = State.Lock;
           break;
         }
-        // TODO: handle input
+        while (this.actInput(input)) {
+          if (core.canDrop()) {
+            this.state = State.CheckDrop;
+            break outer;
+          }
+        }
         this.delays.lock++;
         break;
       }

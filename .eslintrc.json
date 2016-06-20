@@ -6,6 +6,8 @@
     "new-cap": 0,
     "default-case": 0,
     "no-shadow": 0,
+    "no-labels": 0,
+    "no-restricted-syntax": [2, "DebuggerStatement", "ForInStatement", "WithStatement"],
     "no-cond-assign": [2, "except-parens"],
     "no-param-reassign": [2, { "props": false }],
     "no-underscore-dangle": [2, { "allow": ["__"] }]
