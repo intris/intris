@@ -7,7 +7,7 @@ watch:
 	watchify ./entry.js --transform babelify --outfile ./build.js
 
 serve:
-	parallel --jobs 2 --line-buffer ::: \
+	concurrently \
 		"http-server" \
 		"make watch"
 
