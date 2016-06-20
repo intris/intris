@@ -68,6 +68,7 @@ export default class Engine {
       case State.Show: {
         core.showBlock = true;
         // TODO: IRS & IHS
+        this.trace(core.block);
         this.state = State.CheckDead;
         break;
       }
