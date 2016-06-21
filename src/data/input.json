@@ -2,8 +2,8 @@
   "keys": [
     "move-left",
     "move-right",
+    "drop",
     "hard-drop",
-    "soft-drop",
     "rotate-left",
     "rotate-right",
     "hold"
@@ -12,8 +12,8 @@
     "keyboard": {
       "move-left": "ArrowLeft",
       "move-right": "ArrowRight",
+      "drop": "ArrowDown",
       "hard-drop": "ArrowUp",
-      "soft-drop": "ArrowDown",
       "rotate-left": "KeyZ",
       "rotate-right": "KeyX",
       "hold": "Space"
