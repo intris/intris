@@ -1,6 +1,8 @@
 {
   "next": 3,
   "config": {
+    "arr": 7,
+    "das": 1,
     "delay": {
       "show": 0,
       "drop": 60,

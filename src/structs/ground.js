@@ -65,3 +65,32 @@ export const place = R.curry((ground, block) => {
     }
   }
 });
+
+export const isFull = R.curry((ground, y) => {
+  for (let x = -P_LEFT; x < WIDTH + P_RIGHT; x++) {
+    if (get(ground, x, y) === EMPTY) {
+      return false;
+    }
+  }
+  return true;
+});
+
+export const clearLine = R.curry((ground, lineY) => {
+  for (let y = lineY; y > -P_TOP; y--) {
+    for (let x = -P_LEFT; x < WIDTH + P_RIGHT; x++) {
+      set(ground, x, y, get(ground, x, y - 1));
+    }
+  }
+  for (let x = -P_LEFT; x < WIDTH + P_RIGHT; x++) {
+    set(ground, x, -P_TOP, EMPTY);
+  }
+});
+
+export const clearLines = ground => {
+  for (let y = -P_TOP; y < HEIGHT + P_BOTTOM; y++) {
+    if (isFull(ground, y)) {
+      console.log(y);
+      clearLine(ground, y);
+    }
+  }
+};

@@ -5,11 +5,11 @@ import GroundData from "../data/ground.json";
 import BlockData from "../data/block.json";
 
 import Block, {
-  getData,
+  getData, clone,
   moveTo, moveBy,
   rotate, ROTATE_LEFT, ROTATE_RIGHT,
 } from "../structs/block";
-import Ground, { checkAvailable, place } from "../structs/ground";
+import Ground, { checkAvailable, place, clearLines } from "../structs/ground";
 
 import Random from "../utils/random";
 
@@ -19,7 +19,11 @@ export default class Core {
 
     this.ground = Ground();
     this.block = null;
-    this.showBlock = false;
+    this.maskBlock = null;
+    this.holdBlock = null;
+    this.hasHeld = false;
+    this.showBlock = true;
+    this.isLocked = false;
     this.nexts = R.times(::this.randomType, EngineData.next);
   }
 
@@ -34,7 +38,44 @@ export default class Core {
     this.block = moveTo(block,
       Math.floor((GroundData.size.width - data.size.width) / 2 + BlockData.offset.x),
       Math.floor(-data.size.height / 2 + BlockData.offset.y));
+    this.hasHeld = false;
+    this.showBlock = true;
+    this.isLocked = false;
     this.nexts = R.append(this.randomType(), R.tail(this.nexts));
+    this.calculateMask();
+  }
+
+  calculateMask() {
+    this.maskBlock = clone(this.block);
+    while (this.checkAvailable(moveBy(this.maskBlock, 0, 1))) {
+      this.maskBlock = moveBy(this.maskBlock, 0, 1);
+    }
+  }
+
+  clearLines() {
+    clearLines(this.ground);
+  }
+
+  hold() {
+    const nextBlock = this.holdBlock;
+    this.holdBlock = this.block;
+    this.block = nextBlock;
+    if (!this.block) {
+      this.next();
+    } else {
+      this.calculateMask();
+    }
+    this.hasHeld = true;
+  }
+  canHold() {
+    return !this.hasHeld;
+  }
+  tryHold() {
+    let result;
+    if ((result = this.canHold())) {
+      this.hold();
+    }
+    return result;
   }
 
   checkAvailable(block = this.block) {
@@ -48,11 +89,13 @@ export default class Core {
     return place(this.ground, block);
   }
   lock() {
+    this.isLocked = true;
     this.place();
   }
 
   moveBy(x, y) {
     this.block = moveBy(this.block, x, y);
+    this.calculateMask();
   }
   canMoveBy(x, y) {
     return this.checkAvailable(moveBy(this.block, x, y));
@@ -97,6 +140,7 @@ export default class Core {
 
   rotate(direction, offset = [0, 0]) {
     this.block = rotate(moveBy(this.block, offset[0], offset[1]), direction);
+    this.calculateMask();
   }
   canRotate(direction) {
     const data = getData(this.block);

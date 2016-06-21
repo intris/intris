@@ -20,20 +20,20 @@ export default class Renderer {
     this.context = this.canvas.getContext("2d");
     this.context.scale(window.devicePixelRatio, window.devicePixelRatio);
   }
-  drawUnit(x, y, type) {
+  drawUnit(x, y, type, mask = false) {
     if (type !== EMPTY) {
-      this.context.fillStyle = "#000";
+      this.context.fillStyle = mask ? "#cfd8dc" : "#607d8b";
     } else {
-      this.context.fillStyle = "#eee";
+      this.context.fillStyle = "#fafafa";
     }
     this.context.fillRect(x * 20 + 1, y * 20 + 1, 20 - 2, 20 - 2);
   }
-  drawBlock(block) {
+  drawBlock(block, mask = false) {
     const data = getData(block);
     for (let x = 0; x < data.size.width; x++) {
       for (let y = 0; y < data.size.height; y++) {
         if (data.data[y][x]) {
-          this.drawUnit(x + block.x, y + block.y, block.type);
+          this.drawUnit(x + block.x, y + block.y, block.type, mask);
         }
       }
     }
@@ -48,6 +48,7 @@ export default class Renderer {
   render({ data }) {
     this.context.clearRect(0, 0, this.width, this.height);
     this.drawGround(data.ground);
+    this.drawBlock(data.maskBlock, true);
     this.drawBlock(data.block);
   }
 }
