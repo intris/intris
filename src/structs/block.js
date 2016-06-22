@@ -17,22 +17,22 @@ export default ({ type, rotate = 0, x = 0, y = 0 } = {}) =>
 export const clone = block =>
   ({ ...block });
 
-export const rotate = R.curry((block, direction) => ({
+export const rotate = (block, direction) => ({
   ...block,
   rotate: R.mathMod(block.rotate + direction, 4),
-}));
+});
 
 export const ROTATE_LEFT = -1;
 export const ROTATE_RIGHT = 1;
 
-export const moveTo = R.curry((block, x, y) =>
-  ({ ...block, x, y }));
+export const moveTo = (block, x, y) =>
+  ({ ...block, x, y });
 
-export const moveBy = R.curry((block, x, y) => ({
+export const moveBy = (block, x, y) => ({
   ...block,
   x: block.x + x,
   y: block.y + y,
-}));
+});
 
 export const getData = ({ type, rotate }) =>
   types[type][rotate];
