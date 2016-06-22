@@ -117,9 +117,9 @@ export default class Engine {
       case Key.MoveLeft:
       case Key.MoveRight: {
         if (
-          state.count >= config.arr &&
-          (state.count - config.arr) % config.das === 0 &&
-          state.count - state.previous >= config.das) {
+          state.count >= config.das &&
+          (state.count - config.das) % config.arr === 0 &&
+          state.count - state.previous >= config.arr) {
           return true;
         }
         if (state.count === 0 && state.previous !== state.count) {
@@ -128,7 +128,9 @@ export default class Engine {
         return false;
       }
       case Key.Drop: {
-        return state.count % config["drop-das"] === 0 && state.count - state.previous >= config["drop-das"];
+        return (
+          state.count % config["drop-arr"] === 0 &&
+          state.count - state.previous >= config["drop-arr"]);
       }
     }
     return false;

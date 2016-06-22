@@ -1,9 +1,9 @@
 {
   "next": 3,
   "config": {
-    "arr": 7,
-    "das": 1,
-    "drop-das": 1,
+    "das": 7,
+    "arr": 1,
+    "drop-arr": 1,
     "delay": {
       "show": 0,
       "drop": 60,
