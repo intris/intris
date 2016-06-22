@@ -14,9 +14,6 @@ const types =
 export default ({ type, rotate = 0, x = 0, y = 0 } = {}) =>
   ({ type, rotate, x, y });
 
-export const clone = block =>
-  ({ ...block });
-
 export const rotate = (block, direction) => ({
   ...block,
   rotate: R.mathMod(block.rotate + direction, 4),

@@ -3,7 +3,7 @@ import GroundData from "../data/ground.json";
 import BlockData from "../data/block.json";
 
 import Block, {
-  getData, clone,
+  getData,
   moveTo, moveBy,
   rotate, ROTATE_LEFT, ROTATE_RIGHT,
 } from "../structs/block";
@@ -53,7 +53,7 @@ export default class Core {
   }
 
   calculateMask() {
-    this.maskBlock = clone(this.block);
+    this.maskBlock = this.block;
     while (this.checkAvailable(moveBy(this.maskBlock, 0, 1))) {
       this.maskBlock = moveBy(this.maskBlock, 0, 1);
     }
