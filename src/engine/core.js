@@ -30,14 +30,17 @@ export default class Core {
   randomType() {
     return this.random.next(BlockData.types.length);
   }
-  next() {
-    const block = Block({
-      type: R.head(this.nexts),
-    });
-    const data = getData(block);
-    this.block = moveTo(block,
+  initializePosition() {
+    const data = getData(this.block);
+    this.block = moveTo(this.block,
       Math.floor((GroundData.size.width - data.size.width) / 2 + BlockData.offset.x),
       Math.floor(-data.size.height / 2 + BlockData.offset.y));
+  }
+  next() {
+    this.block = Block({
+      type: R.head(this.nexts),
+    });
+    this.initializePosition();
     this.hasHeld = false;
     this.showBlock = true;
     this.isLocked = false;
@@ -58,11 +61,14 @@ export default class Core {
 
   hold() {
     const nextBlock = this.holdBlock;
-    this.holdBlock = this.block;
+    this.holdBlock = Block({
+      type: this.block.type,
+    });
     this.block = nextBlock;
     if (!this.block) {
       this.next();
     } else {
+      this.initializePosition();
       this.calculateMask();
     }
     this.hasHeld = true;
