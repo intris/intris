@@ -116,13 +116,13 @@ export default class Engine {
       }
       case Key.MoveLeft:
       case Key.MoveRight: {
-        if (state.count === 0 && state.previous !== state.count) {
-          return true;
-        }
         if (
           state.count >= config.arr &&
           (state.count - config.arr) % config.das === 0 &&
           state.count - state.previous >= config.das) {
+          return true;
+        }
+        if (state.count === 0 && state.previous !== state.count) {
           return true;
         }
         return false;
