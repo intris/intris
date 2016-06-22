@@ -161,14 +161,18 @@ export default class Engine {
       }
 
       case Key.RotateLeft: {
-        const result = core.tryRotateLeft();
-        this.state = State.CheckDrop;
+        let result;
+        if ((result = core.tryRotateLeft())) {
+          this.state = State.CheckDrop;
+        }
         return result;
       }
 
       case Key.RotateRight: {
-        const result = core.tryRotateRight();
-        this.state = State.CheckDrop;
+        let result;
+        if ((result = core.tryRotateRight())) {
+          this.state = State.CheckDrop;
+        }
         return result;
       }
 
