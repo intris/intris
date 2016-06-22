@@ -128,7 +128,7 @@ export default class Engine {
         return false;
       }
       case Key.Drop: {
-        return state.count % config.das === 0 && state.count - state.previous >= config.das;
+        return state.count % config["drop-das"] === 0 && state.count - state.previous >= config["drop-das"];
       }
     }
     return false;
