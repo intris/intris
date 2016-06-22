@@ -1,5 +1,3 @@
-import R from "ramda";
-
 import EngineData from "../data/engine.json";
 import GroundData from "../data/ground.json";
 import BlockData from "../data/block.json";
@@ -24,11 +22,19 @@ export default class Core {
     this.hasHeld = false;
     this.showBlock = true;
     this.isLocked = false;
-    this.nexts = R.times(::this.randomType, EngineData.next);
+    this.nextBlocks = [];
+    for (let i = 0; i < EngineData.next; i++) {
+      this.nextBlocks.push(this.randomBlock());
+    }
   }
 
   randomType() {
     return this.random.next(BlockData.types.length);
+  }
+  randomBlock() {
+    return Block({
+      type: this.randomType(),
+    });
   }
   initializePosition() {
     const data = getData(this.block);
@@ -37,14 +43,12 @@ export default class Core {
       Math.floor(-data.size.height / 2 + BlockData.offset.y));
   }
   next() {
-    this.block = Block({
-      type: R.head(this.nexts),
-    });
+    this.block = this.nextBlocks.shift();
     this.initializePosition();
     this.hasHeld = false;
     this.showBlock = true;
     this.isLocked = false;
-    this.nexts = R.append(this.randomType(), R.tail(this.nexts));
+    this.nextBlocks.push(this.randomBlock());
     this.calculateMask();
   }
 
