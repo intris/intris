@@ -13,3 +13,6 @@ serve:
 
 lint:
 	eslint ./src
+
+clean:
+	rm ./build.js
