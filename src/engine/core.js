@@ -11,7 +11,7 @@ import Ground, { checkAvailable, place, clearLines } from "../structs/ground";
 
 import Random from "../utils/random";
 
-export default class Core {
+export default class EngineCore {
   constructor() {
     this.random = new Random();
 

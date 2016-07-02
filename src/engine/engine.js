@@ -1,6 +1,6 @@
 import log from "loglevel";
 
-import Core from "./core";
+import EngineCore from "./core";
 
 const State = {
   Begin: "begin",
@@ -41,7 +41,7 @@ const Keys = [
 export default class Engine {
   constructor() {
     this.frame = 0;
-    this.core = new Core();
+    this.core = new EngineCore();
     this.state = State.Begin;
     this.keyState = {};
     for (const key of Keys) {
