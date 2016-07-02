@@ -1,17 +1,20 @@
-# [Intris]
+# [Intris](http://intris.im/)
 
 [![Build Status](https://travis-ci.org/intris/intris.svg?branch=master)](https://travis-ci.org/intris/intris)
 
 **In Development**
 
-A Tetris game follows *[SRS]* guideline with additional *[ARR]=0* / *[IRS]* / *[IHS]* support.
+Yet another Tetris game.
 
-- [Architecture]
+## Technology
 
-[Architecture]: https://github.com/intris/design
+- [Super Rotation System (SRS)](http://harddrop.com/wiki/SRS)
+- [Wall kick](http://harddrop.com/wiki/Wall_kick)
+- [Delayed Auto Shift (DAS)](http://harddrop.com/wiki/DAS) & Auto Repeat Rate (ARR)
+  - Auto Repeat Rate (ARR) = 0
+- [Initial Rotation System (IRS)](http://harddrop.com/wiki/IRS) & [Initial Hold System (IHS)](http://harddrop.com/wiki/IHS)
+- [Random Generator](http://harddrop.com/wiki/Random_Generator)
 
-[Intris]: http://intris.im/
-[SRS]: http://harddrop.com/wiki/SRS "Super Rotation System"
-[IRS]: http://harddrop.com/wiki/IRS "Initial Rotation System"
-[IHS]: http://harddrop.com/wiki/IHS "Initial Hold System"
-[ARR]: http://harddrop.com/wiki/DAS "Auto Repeat Rate"
+## Architecture
+
+See [intris/design](https://github.com/intris/design).
