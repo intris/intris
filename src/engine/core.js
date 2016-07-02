@@ -9,11 +9,11 @@ import Block, {
 } from "../structs/block";
 import Ground, { checkAvailable, place, clearLines } from "../structs/ground";
 
-import Random from "../utils/random";
+import EngineRandom from "./random";
 
 export default class EngineCore {
   constructor() {
-    this.random = new Random();
+    this.random = new EngineRandom();
 
     this.ground = Ground();
     this.block = null;
@@ -28,12 +28,9 @@ export default class EngineCore {
     }
   }
 
-  randomType() {
-    return this.random.next(BlockData.types.length);
-  }
   randomBlock() {
     return Block({
-      type: this.randomType(),
+      type: this.random.next(),
     });
   }
   initializePosition() {
