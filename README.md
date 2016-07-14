@@ -19,3 +19,7 @@ Yet another Tetris game.
 ## Architecture
 
 See [intris/design](https://github.com/intris/design).
+
+## License
+
+MIT License
