@@ -1,6 +1,20 @@
 {
   "name": "intris",
-  "private": true,
+  "version": "0.0.0",
+  "description": "Yet another Tetris game.",
+  "homepage": "http://intris.im/",
+  "repository": {
+    "url": "https://github.com/intris/intris.git"
+  },
+  "bugs": {
+    "url": "https://github.com/intris/intris/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "XiaoYan Li",
+    "email": "lxy.lixiaoyan@gmail.com",
+    "url": "https://github.com/lixiaoyan"
+  },
   "dependencies": {
     "@most/create": "^1.0.1",
     "core-js": "^2.4.0",
