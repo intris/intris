@@ -16,3 +16,5 @@ lint:
 
 clean:
 	rm ./build.js
+
+.PHONY: build watch serve lint clean
