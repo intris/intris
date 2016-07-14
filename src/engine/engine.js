@@ -66,142 +66,65 @@ export default class Engine {
     // TODO
     this.delays.lock = 0;
   }
-  shouldActKey(key, config) {
-    const state = this.keyState[key];
-    if (!state.isDown) {
-      return false;
+  next({ frame, config, input }) {
+    if (this.state === State.End) {
+      return {
+        action: "complete",
+      };
     }
-    // TODO: support state.delayed
-    // FIXME: when Key.MoveLeft & Key.MoveRight both down
-    switch (key) {
-      case Key.MoveLeft: {
-        if (
-          this.keyState[Key.MoveRight].isDown &&
-          this.keyState[Key.MoveRight].start > state.start) {
-          return false;
-        }
-        break;
-      }
-      case Key.MoveRight: {
-        if (
-          this.keyState[Key.MoveLeft].isDown &&
-          this.keyState[Key.MoveLeft].start >= state.start) {
-          return false;
-        }
-        break;
-      }
-      case Key.RotateLeft: {
-        if (
-          this.keyState[Key.RotateRight].isDown &&
-          this.keyState[Key.RotateRight].start > state.start) {
-          return false;
-        }
-        break;
-      }
-      case Key.RotateRight: {
-        if (
-          this.keyState[Key.RotateLeft].isDown &&
-          this.keyState[Key.RotateLeft].start >= state.start) {
-          return false;
-        }
-        break;
-      }
+    for (let __ = 0; __ < frame; __++) {
+      this.processFrame({ config, input });
+      this.frame++;
     }
-    switch (key) {
-      case Key.Hold:
-      case Key.HardDrop:
-      case Key.RotateLeft:
-      case Key.RotateRight: {
-        return state.count === 0 && state.previous !== state.count;
-      }
-      case Key.MoveLeft:
-      case Key.MoveRight: {
-        if (
-          state.count >= config.das &&
-          (state.count - config.das) % config.arr === 0 &&
-          state.count - state.previous >= config.arr) {
-          return true;
-        }
-        if (state.count === 0 && state.previous !== state.count) {
-          return true;
-        }
-        return false;
-      }
-      case Key.Drop: {
-        return (
-          state.count % config["drop-arr"] === 0 &&
-          state.count - state.previous >= config["drop-arr"]);
-      }
-    }
-    return false;
+    return {
+      action: "next",
+      state: this.state,
+      data: this.core,
+      delays: this.delays,
+    };
   }
-  actKey(key) {
+  processFrame({ config, input }) {
+    this.updateInput(input);
+    let previousState = null;
+    while (previousState !== this.state) {
+      previousState = this.state;
+      this.processState(config);
+    }
+  }
+  updateInput(input) {
+    for (const key of Keys) {
+      this.updateKey(key, input[key]);
+    }
+  }
+  updateKey(key, isDown) {
     const core = this.core;
     const state = this.keyState[key];
-    state.previous = this.frame - state.start;
-    switch (key) {
-      case Key.MoveLeft: {
-        return core.tryMoveLeft();
-      }
-
-      case Key.MoveRight: {
-        return core.tryMoveRight();
-      }
-
-      case Key.Drop: {
-        let result;
-        if ((result = core.tryDrop())) {
-          this.delays.drop = 0;
+    const previousIsDown = state.isDown;
+    if (isDown) {
+      state.isDown = true;
+      if (!previousIsDown) {
+        if (!core.showBlock) {
+          state.delayed = true;
         }
-        return result;
+        state.start = this.frame;
       }
-
-      case Key.HardDrop: {
-        while (core.tryDrop());
-        this.state = State.Lock;
-        return true;
+      if (core.showBlock) {
+        state.delayed = false;
       }
-
-      case Key.RotateLeft: {
-        let result;
-        if ((result = core.tryRotateLeft())) {
-          this.state = State.CheckDrop;
-        }
-        return result;
+      if (state.delayed) {
+        state.count = 0;
+      } else {
+        state.count++;
       }
-
-      case Key.RotateRight: {
-        let result;
-        if ((result = core.tryRotateRight())) {
-          this.state = State.CheckDrop;
-        }
-        return result;
-      }
-
-      case Key.Hold: {
-        let result;
-        if ((result = core.canHold())) {
-          this.state = State.Hold;
-        }
-        return result;
-      }
+    } else {
+      state.isDown = false;
+      state.delayed = false;
+      state.start = -1;
+      state.count = -1;
+      state.previous = -1;
     }
-    return false;
   }
-  actInput(config, keys = Keys) {
-    const previousState = this.state;
-    let hasMoved = false;
-    for (const key of keys) {
-      if (this.shouldActKey(key, config)) {
-        hasMoved = hasMoved || this.actKey(key);
-        if (previousState !== this.state) {
-          return hasMoved;
-        }
-      }
-    }
-    return hasMoved;
-  }
-  act(config) {
+  processState(config) {
     const core = this.core;
     switch (this.state) {
       case State.Begin: {
@@ -274,7 +197,7 @@ export default class Engine {
           this.state = State.Drop;
           break;
         }
-        if (this.actInput(config)) {
+        if (this.processInput(config)) {
           if (this.state !== State.DelayDrop) {
             break;
           }
@@ -301,7 +224,7 @@ export default class Engine {
           this.state = State.Lock;
           break;
         }
-        if (this.actInput(config)) {
+        if (this.processInput(config)) {
           if (this.state !== State.DelayLock) {
             break;
           }
@@ -332,62 +255,139 @@ export default class Engine {
       }
     }
   }
-  nextKey(key, isDown) {
+  processInput(config, keys = Keys) {
+    const previousState = this.state;
+    let hasMoved = false;
+    for (const key of keys) {
+      if (this.shouldProcessKey(key, config)) {
+        hasMoved = hasMoved || this.processKey(key);
+        if (previousState !== this.state) {
+          return hasMoved;
+        }
+      }
+    }
+    return hasMoved;
+  }
+  shouldProcessKey(key, config) {
+    const state = this.keyState[key];
+    if (!state.isDown) {
+      return false;
+    }
+    // TODO: support state.delayed
+    // FIXME: when Key.MoveLeft & Key.MoveRight both down
+    switch (key) {
+      case Key.MoveLeft: {
+        if (
+          this.keyState[Key.MoveRight].isDown &&
+          this.keyState[Key.MoveRight].start > state.start) {
+          return false;
+        }
+        break;
+      }
+      case Key.MoveRight: {
+        if (
+          this.keyState[Key.MoveLeft].isDown &&
+          this.keyState[Key.MoveLeft].start >= state.start) {
+          return false;
+        }
+        break;
+      }
+      case Key.RotateLeft: {
+        if (
+          this.keyState[Key.RotateRight].isDown &&
+          this.keyState[Key.RotateRight].start > state.start) {
+          return false;
+        }
+        break;
+      }
+      case Key.RotateRight: {
+        if (
+          this.keyState[Key.RotateLeft].isDown &&
+          this.keyState[Key.RotateLeft].start >= state.start) {
+          return false;
+        }
+        break;
+      }
+    }
+    switch (key) {
+      case Key.Hold:
+      case Key.HardDrop:
+      case Key.RotateLeft:
+      case Key.RotateRight: {
+        return state.count === 0 && state.previous !== state.count;
+      }
+      case Key.MoveLeft:
+      case Key.MoveRight: {
+        if (
+          state.count >= config.das &&
+          (state.count - config.das) % config.arr === 0 &&
+          state.count - state.previous >= config.arr) {
+          return true;
+        }
+        if (state.count === 0 && state.previous !== state.count) {
+          return true;
+        }
+        return false;
+      }
+      case Key.Drop: {
+        return (
+          state.count % config["drop-arr"] === 0 &&
+          state.count - state.previous >= config["drop-arr"]);
+      }
+    }
+    return false;
+  }
+  processKey(key) {
     const core = this.core;
     const state = this.keyState[key];
-    const previousIsDown = state.isDown;
-    if (isDown) {
-      state.isDown = true;
-      if (!previousIsDown) {
-        if (!core.showBlock) {
-          state.delayed = true;
+    state.previous = this.frame - state.start;
+    switch (key) {
+      case Key.MoveLeft: {
+        return core.tryMoveLeft();
+      }
+
+      case Key.MoveRight: {
+        return core.tryMoveRight();
+      }
+
+      case Key.Drop: {
+        let result;
+        if ((result = core.tryDrop())) {
+          this.delays.drop = 0;
         }
-        state.start = this.frame;
+        return result;
       }
-      if (core.showBlock) {
-        state.delayed = false;
+
+      case Key.HardDrop: {
+        while (core.tryDrop());
+        this.state = State.Lock;
+        return true;
       }
-      if (state.delayed) {
-        state.count = 0;
-      } else {
-        state.count++;
+
+      case Key.RotateLeft: {
+        let result;
+        if ((result = core.tryRotateLeft())) {
+          this.state = State.CheckDrop;
+        }
+        return result;
       }
-    } else {
-      state.isDown = false;
-      state.delayed = false;
-      state.start = -1;
-      state.count = -1;
-      state.previous = -1;
+
+      case Key.RotateRight: {
+        let result;
+        if ((result = core.tryRotateRight())) {
+          this.state = State.CheckDrop;
+        }
+        return result;
+      }
+
+      case Key.Hold: {
+        let result;
+        if ((result = core.canHold())) {
+          this.state = State.Hold;
+        }
+        return result;
+      }
     }
-  }
-  nextInput(input) {
-    for (const key of Keys) {
-      this.nextKey(key, input[key]);
-    }
-  }
-  loop({ config, input }) {
-    this.nextInput(input);
-    let previousState = null;
-    while (previousState !== this.state) {
-      previousState = this.state;
-      this.act(config);
-    }
-  }
-  next({ frame, config, input }) {
-    if (this.state === State.End) {
-      return {
-        action: "complete",
-      };
-    }
-    for (let __ = 0; __ < frame; __++) {
-      this.loop({ config, input });
-      this.frame++;
-    }
-    return {
-      action: "next",
-      state: this.state,
-      data: this.core,
-      delays: this.delays,
-    };
+    return false;
   }
 }
