@@ -1,6 +1,6 @@
 # [Intris](http://intris.im/)
 
-[![Build Status](https://travis-ci.org/intris/intris.svg?branch=master)](https://travis-ci.org/intris/intris)
+[![Build Status](https://travis-ci.org/intris/intris.svg?branch=master)](https://travis-ci.org/intris/intris) [![License](https://img.shields.io/npm/l/intris.svg)](https://www.npmjs.com/package/intris)
 
 **In Development**
 
